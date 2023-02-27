@@ -1,0 +1,33 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Please upload  deplyoment package (.zip format)
+
+<div class="drag-drop-zone" >
+
+    <InputFile OnChange="OnInputFileChange" style="border:solid" />
+    <br /><br />
+    <button type="submit" class="btn btn-primary" style="margin-left : 25 px">Deploy</button>
+
+</div>
+
+
+@if (_fileName != null)
+{
+    <h3>@_fileName</h3>
+    if (_entries.Any())
+    {
+        <ul>
+            @foreach (var item in _entries.Where(x => !x.Name.Equals("Dockerfile")))
+            {
+                <li>
+                    <h4>@item.Name</h4>
+                    <pre>@item.Content</pre>
+                </li>
+            }
+        </ul>
+    }
+}
