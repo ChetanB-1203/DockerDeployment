@@ -6,16 +6,16 @@
 
 Please upload  deplyoment package (.zip format)
 
-<div class="drag-drop-zone" >
 
-    <InputFile OnChange="OnInputFileChange" style="border:solid" />
-    <br /><br />
-    <button type="submit" class="btn btn-primary" style="margin-left : 25 px">Deploy</button>
-
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="file path of docker images" @bind="WorkingDirectory">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit" @onclick="OnClickButton">Deploy</button>
+  </div>
 </div>
 
 
-@if (_fileName != null)
+@*@if (_fileName != null)
 {
     <h3>@_fileName</h3>
     if (_entries.Any())
@@ -30,4 +30,4 @@ Please upload  deplyoment package (.zip format)
             }
         </ul>
     }
-}
+}*@

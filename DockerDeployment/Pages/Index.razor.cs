@@ -1,4 +1,4 @@
-﻿using DockerDeployment.Model;
+﻿
 using DockerDeployment.Service;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -9,28 +9,18 @@ namespace DockerDeployment.Pages
     public partial class Index
     {
 
-        private  string DefaultStatus { get; set; } = "Choose a zip file";
+        [Inject] DockerService DockerService { get; set; }  
 
-        private List<ZipEntry> _entries;
+        string  WorkingDirectory { get; set; }
 
-        private string? _fileName;
-        private long maxAllowedSize= 1024*100000;
-        private bool isLoading;
 
-        [Inject] ZipService ZipService { get; set; }    
-
-        private async Task  OnInputFileChange(InputFileChangeEventArgs eventArgs)
+        public  async void OnClickButton()
         {
-
-            await using var stream = eventArgs.File.OpenReadStream(maxAllowedSize);
-            _entries = await ZipService.ExtractFiles(stream);
-            _fileName = eventArgs.File.Name;
-            DefaultStatus = "File uploaded";
+             DockerService.DockerImageCreation(WorkingDirectory);
         }
-
-       /* private async void OnSubmit()
-        {
-        }*/
+ 
+        
+     
 
     }
 
