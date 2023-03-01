@@ -1,5 +1,6 @@
 ﻿
 using System.IO.Compression;
+using System.Net.Sockets;
 using System.Text;
 
 namespace DockerDeployment.Service
@@ -15,24 +16,33 @@ namespace DockerDeployment.Service
                 
                     startInfo.WorkingDirectory = $"{workingDirectory}\\setup";
                     startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                    Console.WriteLine(startInfo.WorkingDirectory);
-                    startInfo.FileName = "cmd.exe";
-                    startInfo.Arguments = "/C for %i in (*.gz) do docker load -i %i";
-                    //startInfo.Arguments = "/C type nul > filename.txt";
+                     startInfo.FileName = "cmd.exe";
+                     startInfo.RedirectStandardInput = true;
+                     startInfo.UseShellExecute = false;
+                   // startInfo.Arguments = "/C for %i in (*.gz) do docker load -i %i";
+                   
                     process.StartInfo = startInfo;
                     Console.WriteLine("process starting");
                     process.Start();
-                    process.WaitForExit();
-                    Console.WriteLine("images created");
+                   
+                   
 
-
-         
-             
+                     using(StreamWriter sw = process.StandardInput)
+                {
+                    if (sw.BaseStream.CanWrite)
+                    {
+                        sw.WriteLine("for %i in (*.gz) do docker load -i %i");
+                        sw.WriteLine("cd ~");
+                        sw.WriteLine($"docker-compose -f {workingDirectory}\\docker_files\\docker-compose.common.yml -f {workingDirectory}\\docker_files\\docker-compose.yml --env-file {workingDirectory}\\docker_files\\.env up -d --remove-orphans");
+                       
+                    }
+                }
+                     process.WaitForExit();
+                Console.WriteLine("container created");
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-              
             }
 
            
