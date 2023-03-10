@@ -16,7 +16,7 @@ namespace DockerDeployment.Pages
 
         public  async void OnClickButton()
         {
-             DockerService.DockerImageCreation(WorkingDirectory);
+             DockerService.ShareFiles3(WorkingDirectory);
         }
  
         
