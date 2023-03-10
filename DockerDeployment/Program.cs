@@ -1,14 +1,17 @@
 
-using DockerDeployment.Service;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<DockerService>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
